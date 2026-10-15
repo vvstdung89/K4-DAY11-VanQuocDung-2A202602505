@@ -1,0 +1,62 @@
+{
+ "format": "avsim-studio/1",
+ "params": {
+  "cutT0": 6.5,
+  "cutDur": 2.4,
+  "cutV": 15,
+  "pedT0": 11,
+  "pedV": 1.45,
+  "busGo": 17,
+  "cutDs": -4,
+  "tgT": 0.9,
+  "mu": 0.8,
+  "cutGap": 12,
+  "cutBrake": 0,
+  "pedGap": 4.5,
+  "pedLook": 1,
+  "civil": true
+ },
+ "policy": {},
+ "hazards": [
+  {
+   "x": 60,
+   "lane": "E2",
+   "d": -0.8,
+   "v": 4,
+   "swerve": 2.2,
+   "swDur": 2.4,
+   "t0": 0,
+   "trig": 8,
+   "type": "bike"
+  }
+ ],
+ "ego": "planner",
+ "space": {
+  "h0_x": [
+   40,
+   95
+  ],
+  "h0_d": [
+   -1.0,
+   -0.5
+  ],
+  "h0_v": [
+   3,
+   7
+  ],
+  "h0_swerve": [
+   1.4,
+   2.4
+  ],
+  "h0_swDur": [
+   1.8,
+   3.0
+  ],
+  "h0_trig": [
+   5,
+   20
+  ]
+ },
+ "exposure": 0.1,
+ "why": "Xe đạp kẹt sau xe buýt đang đỗ ở trạm (làn ngoài E2) rồi lạng trái ra làn xe ta mà không ngoái lại. space: h0_x 40–95 = xe đạp xuất phát trong ~55 m ngay trước đuôi xe buýt (buýt ở x≈100–112 theo toạ độ hazard), nên nó luôn phải dừng chờ sau buýt; h0_d −1,0…−0,5 m = đi ở nửa trái làn ngoài, nơi người đạp đứng chờ để nhìn qua đuôi buýt; h0_v 3–7 m/s ≈ 11–25 km/h, dải tốc độ xe đạp đô thị thường gặp; h0_swerve 1,4–2,4 m = đủ để xe đạp (rộng 0,7 m) thoát mép trái xe buýt (rộng 2,55 m) sang làn trong; h0_swDur 1,8–3,0 s = một cú lách dứt khoát, đồng thời chặn bởi giới hạn gia tốc ngang 3 m/s² của avsim; h0_trig 5–20 m = người đạp không ngoái lại nên lách ra đúng lúc xe ta tới gần (≈0,5–2 s ở tốc độ thận trọng gần vạch). exposure 0,1/chuyến là GIẢ ĐỊNH chưa có số đo: một chuyến nội đô qua ~5 trạm buýt, ~20% trạm có buýt đang đỗ (≈1 lần gặp/chuyến), và ~10% lần gặp có một xe hai bánh chờ sau buýt rồi lách ra trong vòng 20 m trước mũi xe ⇒ 1 × 0,1 = 0,1. Cần thay bằng đếm video tại trạm buýt: số lần xe hai bánh lách ra < 20 m trước một ô tô / số lượt ô tô đi qua trạm khi có buýt đỗ."
+}
