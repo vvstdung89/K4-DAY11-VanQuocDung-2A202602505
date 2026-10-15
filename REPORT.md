@@ -22,7 +22,13 @@ Thị trấn của bạn (`meta.json: _run.town`): **B** (thị trấn "mưa nhi
 
 83 % va chạm của "phát lại" là `rear` (73/88), và **không** vụ nào trong số đó xảy ra lại trong thế giới phản ứng (`crash_in_both = 0`): chúng là va chạm **giả**. Khi phát lại, xe bám đuôi TG chạy đúng quỹ đạo đã ghi khi nó theo **người lái**. Planner thận trọng hơn người: giảm về `cautionV` = 7,5 m/s khi tới gần vạch qua đường bị xe buýt che, và phanh sớm hơn. Nhưng TG trong log không "biết" điều đó, nó vẫn giữ tốc độ như lúc theo người lái, nên tông vào đuôi xe ta. Trong thế giới phản ứng, TG là IDM, thấy xe ta chậm lại thì phanh theo. 15 vụ `side` nhiều khả năng cùng cơ chế: C2 nhập làn theo đúng thời điểm trong log, không chờ khe dù vị trí xe ta đã khác người lái.
 
-Ví dụ `replay_only[4]` (`scenario` 15, `contact` = `rear`): đường ướt (`mu` = 0,5), TG bám rất sát (`tgT` = 0,73 s). Planner giảm tốc trước vạch sớm hơn người lái; TG phát lại không giảm theo, tông đuôi. Cùng kịch bản trong thế giới phản ứng, TG phanh kịp: `min_ttc_reactive` = 2,89 s, không va chạm.
+Ví dụ `replay_only[0]` (`scenario` 4, `contact` = `rear`; là R-01 trong chương 9), đường ướt (`mu` = 0,5). Tôi chạy lại bằng `avsim` (người lái, và planner trên log phát lại) để kể đúng diễn biến:
+
+- Từ t ≈ 10 s planner ở chế độ "thận trọng" vì vạch qua đường (x = 122 m) bị xe buýt che, chạy ≈ 7,2 m/s, trong khi người lái trong log giữ ≈ 10 m/s.
+- t ≈ 15 s, người đi bộ P1 bắt đầu qua đường. Planner chuyển sang "nhường người đi bộ" và dừng ở x ≈ 114,3 m (0,5 m/s lúc 17,15 s). Người lái thì đã đi tiếp ở ≈ 10,9 m/s.
+- TG phát lại vẫn chạy đúng quỹ đạo log (4,4 m/s lúc 17,15 s, x ≈ 109,7 m). Log không biết xe ta đã dừng sớm hơn người lái, nên TG tông vào đuôi lúc 17,15 s.
+
+Cùng kịch bản trong thế giới phản ứng, TG là IDM, thấy xe ta dừng thì dừng theo: `min_ttc_reactive` = 7,99 s, không va chạm. (Cùng kiểu ở các `replay_only` khác: `scenario` 5, 6, 14 cũng là planner dừng trước vạch còn người lái đi tiếp.)
 
 ## 2. Kịch bản bất khả thi (bước B)
 
@@ -86,8 +92,8 @@ Nếu chỉ chạy **một** cuộc săn chung: CEM co về kiểu dễ leo nh�
 
 | | `fail` | `fail_hi_seen` | `fail_hi` | `unseen` | `progress` [m] | `harsh` [khung] |
 |---|---|---|---|---|---|---|
-| TRAIN, policy gốc (`baseline_train`) | 1,36·10⁻³ | 3,31·10⁻³ | 3,31·10⁻³ | — | 215,0 | 7,54 |
-| TRAIN, `cutinLat` 3,0 (`chosen`) | 1,19·10⁻⁵ | 3,34·10⁻⁵ | 3,34·10⁻⁵ | `bus_bypass` | 215,0 | 7,29 |
+| TRAIN, policy gốc (`baseline_train`) | 1,36·10⁻³ | 3,31·10⁻³ | 3,31·10⁻³ | — | 214,8 | 7,54 |
+| TRAIN, `cutinLat` 3,0 (`chosen`) | 1,19·10⁻⁵ | 3,34·10⁻⁵ | 3,34·10⁻⁵ | `bus_bypass` | 214,7 | 7,29 |
 | **TEST, `cutinLat` 3,0 (`chosen_test`)** | **1,95·10⁻⁶** | **4,09·10⁻⁶** | **3,88·10⁻²** | `bus_bypass` | 214,1 | 7,98 |
 | **TEST, policy gốc (`baseline_test`)** | **2,71·10⁻³** | 6,67·10⁻³ | **7,95·10⁻³** | — | 214,2 | 8,40 |
 
